@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='22' fill='%2314183f'/%3E%3Ccircle cx='48' cy='48' r='28' fill='none' stroke='%23fff' stroke-width='5'/%3E%3Cpath d='M48 24l9 24H39z' fill='%23ff9a3d'/%3E%3Cpath d='M48 72l-9-24h18z' fill='%233fcf94'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Disha Compass by Nadika</title>
+<style>
+:root{--ink:#fff;--mid:rgba(255,255,255,.7);--red:#ff5a4f;--acc:#ff9a3d;--grn:#3fcf94;--s:min(88vw,40vh,340px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%;background:#000;color-scheme:dark}
+body{margin:0 auto;height:100%;max-width:480px;color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;flex-direction:column}
+header{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + env(safe-area-inset-top)) 16px 4px;flex:none}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:20px}
+.lg{width:28px;height:28px}.lg.big{width:56px;height:56px}
+#info{width:40px;height:40px;padding:0;border-radius:50%;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);font:italic 20px Georgia,serif;cursor:pointer}
+main{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column}
+.view{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px 20px 12px}
+#wrap{position:relative;width:var(--s);height:var(--s);margin:8px auto 0}
+#wrap svg{width:100%;height:100%;display:block;overflow:visible}
+#hd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:calc(var(--s)*.21);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-1px;pointer-events:none}
+#hd sup{font-size:.45em;font-weight:600;vertical-align:top;position:relative;top:.12em;margin-left:2px}
+#hdc{font-size:30px;font-weight:700;margin-top:10px;min-height:42px;text-align:center}
+#msg{color:var(--mid);font-size:14px;text-align:center;min-height:20px}
+#bGo{margin-top:8px;padding:11px 22px;border:0;border-radius:24px;background:var(--acc);color:#1a1000;font:700 16px inherit;font-family:inherit;cursor:pointer}
+.grid{width:100%;max-width:340px;display:grid;grid-template-columns:1fr 1fr;gap:18px 12px;margin-top:auto;padding-top:18px}
+.grid .r{text-align:right}
+.grid label{display:block;font-size:17px;color:#fff}
+.val{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
+.r .val{justify-content:flex-end}
+.inf{width:20px;height:20px;border-radius:50%;border:2px solid var(--red);background:transparent;color:var(--red);font:700 12px/1 Georgia,serif;padding:0;cursor:pointer;flex:none}
+.hide{display:none!important}
+#lvWrap{width:var(--s);height:var(--s);margin:8px auto 0}
+#lvWrap svg{width:100%;height:100%;display:block}
+#lvv{font-size:52px;font-weight:700;margin-top:14px;font-variant-numeric:tabular-nums}
+#lvm{font-size:20px;font-weight:700;color:var(--mid);min-height:28px}
+.tabs{flex:none;display:flex;background:rgba(255,255,255,.09);padding:8px 8px calc(8px + env(safe-area-inset-bottom));border-radius:18px 18px 0 0}
+.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:transparent;border:0;color:rgba(255,255,255,.6);font:600 13px inherit;font-family:inherit;padding:6px;cursor:pointer}
+.tabs button.on{color:#fff}
+.tabs svg{width:28px;height:28px}
+button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.ov{position:fixed;inset:0;z-index:25;background:rgba(0,0,0,.7);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:#111114;color:#fff;width:100%;max-width:480px;max-height:80vh;overflow:auto;border-radius:22px 22px 0 0;padding:22px 20px calc(20px + env(safe-area-inset-bottom));animation:up .3s ease both}
+.sheet h2{margin:10px 0 8px;font-size:22px}.sheet p{margin:0}.sub{color:var(--mid)}
+.sheet .cl{width:100%;margin-top:16px;padding:12px;border:0;border-radius:10px;background:var(--acc);color:#1a1000;font:700 16px inherit;font-family:inherit;cursor:pointer}
+#toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#fff;color:#000;padding:8px 14px;border-radius:20px;font-size:14px;z-index:40;max-width:90vw;text-align:center}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.sheet{animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="logo" viewBox="0 0 96 96"><rect width="96" height="96" rx="22" fill="#14183f"/><circle cx="48" cy="48" r="29" fill="none" stroke="#fff" stroke-width="5"/><g class="nd"><path d="M48 22l10 26H38z" fill="#ff9a3d"/><path d="M48 74L38 48h20z" fill="#3fcf94"/></g><circle cx="48" cy="48" r="4" fill="#14183f" stroke="#fff" stroke-width="2.5"/></symbol>
+<symbol id="nlogo" viewBox="0 0 96 96"><rect width="96" height="96" rx="22" fill="#14183f"/><rect x="26" y="26" width="10" height="44" fill="#ff9a3d"/><rect x="60" y="26" width="10" height="44" fill="#3fcf94"/><path d="M36 26h10l24 44H60z" fill="#fff"/></symbol>
+</svg>
+
+<header>
+<div class="brand"><svg class="lg" viewBox="0 0 96 96"><use href="#logo"/></svg>Disha</div>
+<button id="info" aria-label="About us">i</button>
+</header>
+
+<main>
+<section id="vC" class="view">
+<div id="wrap">
+<svg viewBox="0 0 300 300" role="img" aria-label="Compass">
+<defs><clipPath id="wedge"><path id="wd" d=""/></clipPath></defs>
+<g id="dial">
+<g id="tk" stroke="rgba(255,255,255,.88)" stroke-linecap="round"></g>
+<g id="tkr" stroke="#ff5a4f" stroke-linecap="round" clip-path="url(#wedge)"></g>
+<g id="lbl"></g>
+</g>
+<line x1="150" y1="20" x2="150" y2="46" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+<div id="hd"><span><span id="hv">--</span><sup>°</sup></span></div>
+</div>
+<div id="hdc">&nbsp;</div>
+<div id="msg">&nbsp;</div>
+<button id="bGo" class="hide">Tap to start compass</button>
+<div class="grid">
+<div><label id="nlL">NL</label><div class="val"><span id="nl">--</span><button class="inf" id="nli" aria-label="Why is this empty">i</button></div></div>
+<div class="r"><label id="elL">EL</label><div class="val"><span id="el">--</span><button class="inf" id="eli" aria-label="Why is this empty">i</button></div></div>
+<div><label>Elevation</label><div class="val"><span id="ev">--</span><button class="inf" id="evi" aria-label="Why is this empty">i</button></div></div>
+</div>
+</section>
+
+<section id="vL" class="view hide" style="align-items:center">
+<div id="lvWrap"><svg viewBox="0 0 300 300" role="img" aria-label="Level">
+<circle cx="150" cy="150" r="135" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.4)" stroke-width="2"/>
+<circle cx="150" cy="150" r="70" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+<line x1="150" y1="20" x2="150" y2="280" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+<line x1="20" y1="150" x2="280" y2="150" stroke="rgba(255,255,255,.25)" stroke-width="2"/>
+<circle id="bub" cx="150" cy="150" r="26" fill="#ff9a3d" stroke="#fff" stroke-width="3"/>
+</svg></div>
+<div id="lvv">0.0°</div>
+<div id="lvm">Place the phone flat</div>
+</section>
+</main>
+
+<nav class="tabs">
+<button id="tC" class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8l-2.2 5.8L8 16l2.2-5.8z" fill="currentColor"/></svg>Compass</button>
+<button id="tL"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 12h14" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2.6" fill="currentColor"/></svg>Level</button>
+</nav>
+
+<div class="ov hide" id="about" role="dialog" aria-modal="true" aria-labelledby="abT"><div class="sheet">
+<svg class="lg big" viewBox="0 0 96 96"><use href="#nlogo"/></svg>
+<h2 id="abT">About us</h2>
+<p>This is built by <b>Nadika</b>, founded by <b>Kevin Vinzuda</b>.</p>
+<p class="sub" style="margin-top:12px">Disha is a compass with a level. It shows your heading, direction, location and elevation.</p>
+<p class="sub" style="margin-top:12px">For best accuracy hold your phone flat and keep it away from magnets and metal. Everything runs on your phone. Nothing is uploaded.</p>
+<button class="cl">Close</button></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+if("serviceWorker" in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+const toast=t=>{const o=$("toast");if(o)o.remove();const d=document.createElement("div");d.id="toast";d.textContent=t;document.body.append(d);setTimeout(()=>d.remove(),2200)};
+
+// ---- build the ring
+const NS="http://www.w3.org/2000/svg";
+const mk=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);p.append(e);return e};
+(function(){
+  for(let a=0;a<360;a+=2){
+    const r=a*Math.PI/180,big=a%10===0,r1=big?105:110,r2=124,s=Math.sin(r),c=Math.cos(r);
+    const at={x1:150+r1*s,y1:150-r1*c,x2:150+r2*s,y2:150-r2*c,"stroke-width":big?2.2:1.5};
+    mk("line",at,$("tk"));mk("line",at,$("tkr"));
+  }
+  const names={0:"North",90:"East",180:"South",270:"West"};
+  for(let a=0;a<360;a+=30){
+    const card=a%90===0;
+    const t=mk("text",{x:150,y:card?17:15,"text-anchor":"middle","font-size":card?15:11,"font-weight":card?700:500,
+      fill:a===0?"#ff5a4f":(card?"#fff":"rgba(255,255,255,.75)"),transform:"rotate("+a+" 150 150)"},$("lbl"));
+    t.textContent=card?names[a]:a;
+  }
+})();
+
+// ---- heading
+const NAMES=["North","Northeast","East","Southeast","South","Southwest","West","Northwest"];
+let on=false,have=false,sx=0,sy=0,heading=0,timer=null;
+const msg=t=>$("msg").textContent=t||"\u00a0";
+function wedge(h){
+  if(h<.5){$("wd").setAttribute("d","");return}
+  const r=h*Math.PI/180,R=135;
+  $("wd").setAttribute("d","M150 150 L150 "+(150-R)+" A"+R+" "+R+" 0 "+(h>180?1:0)+" 1 "+(150+R*Math.sin(r)).toFixed(2)+" "+(150-R*Math.cos(r)).toFixed(2)+" Z");
+}
+function setHead(h){
+  const r=h*Math.PI/180;
+  if(!have){sx=Math.sin(r);sy=Math.cos(r);have=true}else{sx=sx*.75+Math.sin(r)*.25;sy=sy*.75+Math.cos(r)*.25}
+  h=(Math.atan2(sx,sy)*180/Math.PI+360)%360;heading=h;
+  $("dial").setAttribute("transform","rotate("+(-h).toFixed(2)+" 150 150)");
+  wedge(h);
+  $("hv").textContent=Math.round(h)%360;
+  $("hdc").textContent=NAMES[Math.round(h/45)%8];
+}
+// ---- level
+let lb=0,lg=0;
+function level(b,g){
+  lb=lb*.7+b*.3;lg=lg*.7+g*.3;
+  let dx=-lg*3.2,dy=-lb*3.2;const d=Math.hypot(dx,dy),max=95;
+  if(d>max){dx*=max/d;dy*=max/d}
+  const t=Math.hypot(lb,lg),ok=t<1;
+  $("bub").setAttribute("cx",(150+dx).toFixed(1));$("bub").setAttribute("cy",(150+dy).toFixed(1));
+  $("bub").setAttribute("fill",ok?"#3fcf94":"#ff9a3d");
+  $("lvv").textContent=t.toFixed(1)+"°";
+  $("lvm").textContent=ok?"Level":"Place the phone flat";
+}
+function onOri(e){
+  if(e.beta!=null&&e.gamma!=null)level(e.beta,e.gamma);
+  let h=null;
+  if(typeof e.webkitCompassHeading==="number")h=e.webkitCompassHeading;
+  else if(e.alpha!=null&&(e.absolute||e.type==="deviceorientationabsolute"))h=360-e.alpha;
+  if(h===null)return;
+  if(!have)msg("");
+  setHead(h);
+}
+async function start(){
+  if(!("DeviceOrientationEvent" in window)){msg("Compass is not supported on this device.");return}
+  try{
+    if(typeof DeviceOrientationEvent.requestPermission==="function"){
+      if(await DeviceOrientationEvent.requestPermission()!=="granted"){msg("Permission denied. Allow motion access in Settings.");$("bGo").classList.remove("hide");return}
+    }
+  }catch(e){msg("Could not get permission for the compass.");$("bGo").classList.remove("hide");return}
+  if(!on){
+    addEventListener("deviceorientationabsolute",onOri,true);
+    addEventListener("deviceorientation",onOri,true);
+    on=true;
+  }
+  $("bGo").classList.add("hide");msg("Looking for north…");
+  clearTimeout(timer);timer=setTimeout(()=>{if(!have)msg("No compass sensor found. Try on a phone.")},3000);
+  startLoc();
+}
+$("bGo").onclick=start;
+
+// ---- location
+let wid=null;
+function startLoc(){
+  if(!navigator.geolocation){toast("Location is not available on this device");return}
+  if(wid!==null)navigator.geolocation.clearWatch(wid);
+  wid=navigator.geolocation.watchPosition(p=>{
+    const c=p.coords;
+    $("nlL").textContent=c.latitude>=0?"NL":"SL";$("nl").textContent=Math.abs(c.latitude).toFixed(4)+"°";$("nli").classList.add("hide");
+    $("elL").textContent=c.longitude>=0?"EL":"WL";$("el").textContent=Math.abs(c.longitude).toFixed(4)+"°";$("eli").classList.add("hide");
+    if(c.altitude!=null&&isFinite(c.altitude)){$("ev").textContent=Math.round(c.altitude)+" m";$("evi").classList.add("hide")}
+  },()=>toast("Allow location permission to see this"),{enableHighAccuracy:true,maximumAge:5000,timeout:20000});
+}
+["nli","eli","evi"].forEach(id=>$(id).onclick=()=>{toast("Getting location…");startLoc()});
+
+// ---- tabs
+function tab(n){
+  $("vC").classList.toggle("hide",n!==0);$("vL").classList.toggle("hide",n!==1);
+  $("tC").classList.toggle("on",n===0);$("tL").classList.toggle("on",n===1);
+}
+$("tC").onclick=()=>tab(0);$("tL").onclick=()=>tab(1);
+
+// ---- about
+const ab=$("about"),closeS=()=>ab.classList.add("hide");
+$("info").onclick=()=>ab.classList.remove("hide");
+ab.onclick=e=>{if(e.target===ab)closeS()};ab.querySelector(".cl").onclick=closeS;
+addEventListener("keydown",e=>{if(e.key==="Escape")closeS()});
+
+// Android/desktop need no permission prompt, so start right away; iPhone waits for a tap
+if(window.DeviceOrientationEvent&&typeof DeviceOrientationEvent.requestPermission==="function"){msg("Tap the button to start.");$("bGo").classList.remove("hide")}
+else start();
+</script>
+</body>
+</html>
